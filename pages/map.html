@@ -255,6 +255,54 @@
         color: var(--muted);
       }
 
+      .map-style-control {
+        position: absolute;
+        top: 16px;
+        right: 94px;
+        z-index: 600;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 10px 8px 12px;
+        background: rgba(255, 255, 255, 0.9);
+        border: 1px solid rgba(148, 163, 184, 0.6);
+        border-radius: 12px;
+        box-shadow: 0 10px 24px rgba(15, 23, 42, 0.12);
+        backdrop-filter: blur(8px);
+      }
+
+      .map-style-label {
+        font-size: 0.7rem;
+        font-weight: 800;
+        letter-spacing: 0.09em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+
+      .map-style-control select {
+        border: 1px solid var(--border);
+        background: #fff;
+        color: var(--text);
+        border-radius: 10px;
+        padding: 8px 30px 8px 10px;
+        font-size: 0.82rem;
+        font-weight: 700;
+        outline: none;
+        appearance: none;
+        background-image: linear-gradient(45deg, transparent 50%, var(--muted) 50%), linear-gradient(135deg, var(--muted) 50%, transparent 50%);
+        background-position: calc(100% - 16px) calc(50% - 2px), calc(100% - 11px) calc(50% - 2px);
+        background-size: 5px 5px, 5px 5px;
+        background-repeat: no-repeat;
+        cursor: pointer;
+      }
+
+      @media (max-width: 640px) {
+        .map-style-control {
+          right: 16px;
+          top: 16px;
+        }
+      }
+
       .modal-backdrop {
         position: fixed;
         inset: 0;
@@ -362,6 +410,14 @@
       </aside>
 
       <main class="map-panel">
+        <div class="map-style-control" aria-label="Pilihan tampilan peta">
+          <span class="map-style-label">Peta</span>
+          <select id="mapStyle" aria-label="Pilih jenis peta">
+            <option value="satellite">Satelit</option>
+            <option value="default">Standar</option>
+          </select>
+        </div>
+
         <div class="map-header">
           <strong>Kordiju</strong>
           <span>Peta Interaktif Koordinat Aset PJU</span>
@@ -399,10 +455,31 @@
 
       L.control.zoom({ position: 'topright' }).addTo(map);
 
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 19,
-        attribution: '&copy; OpenStreetMap contributors',
-      }).addTo(map);
+      const baseLayers = {
+        satellite: L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+          maxZoom: 19,
+          attribution: 'Tiles &copy; Esri',
+        }),
+        default: L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          maxZoom: 19,
+          attribution: '&copy; OpenStreetMap contributors',
+        }),
+      };
+
+      const mapStyleSelect = document.getElementById('mapStyle');
+
+      function setMapLayer(type) {
+        Object.values(baseLayers).forEach((layer) => layer.remove());
+        if (baseLayers[type]) {
+          baseLayers[type].addTo(map);
+          mapStyleSelect.value = type;
+        }
+      }
+
+      setMapLayer('satellite');
+      mapStyleSelect.addEventListener('change', (event) => {
+        setMapLayer(event.target.value);
+      });
 
       const modal = document.getElementById('detailModal');
       const detailContent = document.getElementById('detailContent');
@@ -553,26 +630,49 @@
 
       let activeMarker = null;
 
-      function setActiveMarker(marker, item) {
-        if (activeMarker && activeMarker !== marker) {
-          activeMarker.setStyle({
-            radius: 7,
+      function getLampStatus(item) {
+        const condition = normalizeValue(item['Kondisi Lampu']).toUpperCase();
+        return condition.includes('NYALA');
+      }
+
+      function getMarkerStyle(item, isActive = false) {
+        if (isActive) {
+          return {
+            radius: 10,
             color: '#0f766e',
-            fillColor: '#38bdf8',
+            fillColor: '#0ea5e9',
+            fillOpacity: 1,
+            weight: 2,
+          };
+        }
+
+        if (!getLampStatus(item)) {
+          return {
+            radius: 7,
+            color: '#b91c1c',
+            fillColor: '#ef4444',
             fillOpacity: 0.95,
             weight: 1,
-          });
+          };
+        }
+
+        return {
+          radius: 7,
+          color: '#15803d',
+          fillColor: '#22c55e',
+          fillOpacity: 0.95,
+          weight: 1,
+        };
+      }
+
+      function setActiveMarker(marker, item) {
+        if (activeMarker && activeMarker !== marker) {
+          activeMarker.setStyle(getMarkerStyle(activeMarker.item, false));
         }
 
         activeMarker = marker;
         if (marker) {
-          marker.setStyle({
-            radius: 10,
-            color: '#f59e0b',
-            fillColor: '#fcd34d',
-            fillOpacity: 1,
-            weight: 2,
-          });
+          marker.setStyle(getMarkerStyle(marker.item, true));
         }
 
         if (item) {
@@ -584,13 +684,8 @@
         const coords = getCoordinate(item);
         if (!coords) return null;
 
-        const marker = L.circleMarker(coords, {
-          radius: 7,
-          color: '#0f766e',
-          weight: 1,
-          fillColor: '#38bdf8',
-          fillOpacity: 0.95,
-        });
+        const marker = L.circleMarker(coords, getMarkerStyle(item, false));
+        marker.item = item;
 
         marker.on('click', () => {
           setActiveMarker(marker, item);
