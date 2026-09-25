@@ -24,6 +24,201 @@
         background: #dfeaf1;
       }
 
+      .app-shell {
+        display: flex;
+        width: 100%;
+        height: 100vh;
+        position: relative;
+      }
+
+      .sidebar {
+        position: relative;
+        width: 330px;
+        min-width: 330px;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.92);
+        border-right: 1px solid var(--border);
+        box-shadow: 12px 0 30px rgba(15, 23, 42, 0.08);
+        backdrop-filter: blur(8px);
+        transition: width 0.25s ease, min-width 0.25s ease, transform 0.25s ease;
+        z-index: 600;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .sidebar.collapsed {
+        width: 0;
+        min-width: 0;
+        transform: translateX(-100%);
+        border-right: 0;
+      }
+
+      .sidebar-inner {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        overflow-y: auto;
+      }
+
+      .sidebar-header {
+        padding: 18px 16px 12px;
+        border-bottom: 1px solid var(--border);
+        background: #f8fafc;
+        position: sticky;
+        top: 0;
+        z-index: 2;
+      }
+
+      .sidebar-header-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--primary-strong);
+      }
+
+      .brand-mark {
+        width: 30px;
+        height: 30px;
+        border-radius: 10px;
+        display: grid;
+        place-items: center;
+        background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+        color: #fff;
+        font-size: 0.8rem;
+      }
+
+      .sidebar-toggle {
+        width: 36px;
+        height: 36px;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        background: #fff;
+        color: var(--text);
+        cursor: pointer;
+        font-size: 1.2rem;
+      }
+
+      .sidebar-open-button {
+        position: fixed;
+        top: 20px;
+        left: 18px;
+        z-index: 800;
+        width: 46px;
+        height: 46px;
+        border: none;
+        border-radius: 14px;
+        background: linear-gradient(135deg, var(--primary) 0%, var(--primary-strong) 100%);
+        color: #fff;
+        box-shadow: 0 14px 28px rgba(15, 118, 110, 0.28);
+        font-size: 1.4rem;
+        cursor: pointer;
+        display: none;
+      }
+
+      .sidebar.collapsed ~ .sidebar-open-button,
+      .sidebar.collapsed + .sidebar-open-button {
+        display: block;
+      }
+
+      .sidebar-body {
+        padding: 14px 16px 18px;
+      }
+
+      .section-label {
+        margin: 10px 0 8px;
+        font-size: 0.74rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        font-weight: 800;
+        color: var(--muted);
+      }
+
+      .location-list {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .location-group {
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        overflow: hidden;
+        background: #fff;
+      }
+
+      .location-button {
+        width: 100%;
+        border: 0;
+        background: transparent;
+        text-align: left;
+        padding: 12px 14px;
+        font-weight: 700;
+        color: var(--text);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+      }
+
+      .location-button span:last-child {
+        font-size: 1.2rem;
+        color: var(--muted);
+      }
+
+      .location-items {
+        display: none;
+        border-top: 1px solid var(--border);
+        background: #f8fafc;
+      }
+
+      .location-group.open .location-items {
+        display: block;
+      }
+
+      .location-item {
+        width: 100%;
+        text-align: left;
+        border: 0;
+        background: transparent;
+        padding: 10px 14px;
+        color: var(--text);
+        cursor: pointer;
+        border-bottom: 1px solid rgba(15, 23, 42, 0.04);
+        transition: background 0.2s ease, color 0.2s ease, font-weight 0.2s ease;
+      }
+
+      .location-item:last-child {
+        border-bottom: 0;
+      }
+
+      .location-item:hover {
+        background: rgba(56, 189, 248, 0.08);
+      }
+
+      .location-item.active {
+        background: linear-gradient(135deg, rgba(15, 118, 110, 0.14), rgba(56, 189, 248, 0.12));
+        color: var(--primary-strong);
+        font-weight: 700;
+      }
+
+      .map-panel {
+        position: relative;
+        flex: 1;
+        min-width: 0;
+        transition: margin-left 0.25s ease;
+      }
+
       #map {
         width: 100%;
         height: 100vh;
@@ -31,7 +226,7 @@
 
       .map-header {
         position: absolute;
-        top: 20px;
+        bottom: 20px;
         left: 20px;
         z-index: 500;
         background: rgba(255, 255, 255, 0.9);
@@ -40,6 +235,8 @@
         padding: 10px 14px;
         box-shadow: var(--shadow);
         backdrop-filter: blur(4px);
+        text-align: left;
+        min-width: 220px;
       }
 
       .map-header strong {
@@ -51,18 +248,141 @@
       }
 
       .map-header span {
+        display: block;
+        text-align: left;
         font-size: 0.86rem;
         color: var(--muted);
+      }
+
+      .modal-backdrop {
+        position: fixed;
+        inset: 0;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        background: rgba(15, 23, 42, 0.48);
+        z-index: 1000;
+        padding: 20px;
+      }
+
+      .modal-backdrop.open {
+        display: flex;
+      }
+
+      .modal-card {
+        width: min(760px, 100%);
+        max-height: 85vh;
+        overflow: auto;
+        background: var(--surface);
+        border-radius: 22px;
+        box-shadow: var(--shadow);
+        border: 1px solid var(--border);
+      }
+
+      .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 16px;
+        padding: 20px 24px 14px;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .modal-header h2 {
+        margin: 0;
+        font-size: clamp(1.2rem, 2vw, 1.6rem);
+      }
+
+      .close-button {
+        border: 0;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        font-size: 1.4rem;
+        background: #edf2f7;
+        color: var(--text);
+        cursor: pointer;
+      }
+
+      .modal-content {
+        padding: 20px 24px 24px;
+      }
+
+      .detail-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 14px 18px;
+      }
+
+      .detail-item {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        padding: 12px 14px;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        background: #f8fafc;
+      }
+
+      .detail-label {
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--muted);
+        font-weight: 700;
+      }
+
+      .detail-value {
+        font-size: 0.98rem;
+        color: var(--text);
+        word-break: break-word;
       }
     </style>
   </head>
   <body>
-    <div class="map-header">
-      <strong>Kordiju</strong>
-      <span>Peta Interaktif Koordinant Aset PJU</span>
+    <div class="app-shell">
+      <aside id="sidebar" class="sidebar collapsed" aria-label="Sidebar lokasi aset">
+        <div class="sidebar-inner">
+          <div class="sidebar-header">
+            <div class="sidebar-header-top">
+              <div class="brand">
+                <span class="brand-mark">K</span>
+                <span>KORDIJU</span>
+              </div>
+              <button class="sidebar-toggle" id="toggleSidebarBtn" type="button" aria-label="Buka sidebar">→</button>
+            </div>
+          </div>
+
+          <div class="sidebar-body">
+            <div class="section-label">Lokasi</div>
+            <div id="locationList" class="location-list"></div>
+          </div>
+        </div>
+      </aside>
+
+      <main class="map-panel">
+        <div class="map-header">
+          <strong>Kordiju</strong>
+          <span>Peta Interaktif Koordinat Aset PJU</span>
+        </div>
+
+        <div id="map" aria-label="Peta utama"></div>
+      </main>
     </div>
 
-    <div id="map" aria-label="Peta utama"></div>
+    <button class="sidebar-open-button" id="openSidebarBtn" type="button" aria-label="Buka sidebar">☰</button>
+
+    <div id="detailModal" class="modal-backdrop" aria-hidden="true">
+      <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        <div class="modal-header">
+          <h2 id="modalTitle">Detail Aset</h2>
+          <button type="button" class="close-button" aria-label="Tutup detail" id="closeModalBtn">×</button>
+        </div>
+        <div class="modal-content">
+          <div id="detailContent" class="detail-grid"></div>
+        </div>
+      </div>
+    </div>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
       integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
@@ -73,18 +393,331 @@
         zoomControl: true,
         scrollWheelZoom: true,
         dragging: true,
+        zoomControl: false,
       }).setView([-2.5489, 118.0149], 5);
+
+      L.control.zoom({ position: 'topright' }).addTo(map);
 
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
         attribution: '&copy; OpenStreetMap contributors',
       }).addTo(map);
 
-      L.marker([-6.2088, 106.8456])
-        .addTo(map)
-        .bindPopup('Contoh titik awal. Nanti diisi dari file CSV.');
+      const modal = document.getElementById('detailModal');
+      const detailContent = document.getElementById('detailContent');
+      const modalTitle = document.getElementById('modalTitle');
+      const closeModalBtn = document.getElementById('closeModalBtn');
+      const sidebar = document.getElementById('sidebar');
+      const toggleSidebarBtn = document.getElementById('toggleSidebarBtn');
+      const openSidebarBtn = document.getElementById('openSidebarBtn');
+      const locationList = document.getElementById('locationList');
 
-      // TODO: replace with CSV data loader later
+      function openModal() {
+        modal.classList.add('open');
+        modal.setAttribute('aria-hidden', 'false');
+      }
+
+      function toggleSidebar() {
+        const isCollapsed = sidebar.classList.toggle('collapsed');
+        toggleSidebarBtn.textContent = isCollapsed ? '→' : '←';
+        toggleSidebarBtn.setAttribute('aria-label', isCollapsed ? 'Buka sidebar' : 'Tutup sidebar');
+        openSidebarBtn.style.display = isCollapsed ? 'block' : 'none';
+        if (map) {
+          setTimeout(() => map.invalidateSize(), 200);
+        }
+      }
+
+      toggleSidebarBtn.addEventListener('click', toggleSidebar);
+      openSidebarBtn.addEventListener('click', () => {
+        sidebar.classList.remove('collapsed');
+        toggleSidebarBtn.textContent = '←';
+        toggleSidebarBtn.setAttribute('aria-label', 'Tutup sidebar');
+        openSidebarBtn.style.display = 'none';
+        if (map) {
+          setTimeout(() => map.invalidateSize(), 200);
+        }
+      });
+
+      openSidebarBtn.style.display = 'block';
+
+      function closeModal() {
+        modal.classList.remove('open');
+        modal.setAttribute('aria-hidden', 'true');
+      }
+
+      closeModalBtn.addEventListener('click', closeModal);
+      modal.addEventListener('click', (event) => {
+        if (event.target === modal) closeModal();
+      });
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && modal.classList.contains('open')) {
+          closeModal();
+        }
+      });
+
+      function parseCsvLine(line) {
+        const values = [];
+        let current = '';
+        let inQuotes = false;
+
+        for (let i = 0; i < line.length; i += 1) {
+          const char = line[i];
+
+          if (char === '"') {
+            if (inQuotes && line[i + 1] === '"') {
+              current += '"';
+              i += 1;
+            } else {
+              inQuotes = !inQuotes;
+            }
+          } else if (char === ',' && !inQuotes) {
+            values.push(current);
+            current = '';
+          } else {
+            current += char;
+          }
+        }
+
+        values.push(current);
+        return values.map((value) => value.trim());
+      }
+
+      function parseCsv(text) {
+        const rows = text.trim().split(/\r?\n/).filter((line) => line.trim() !== '');
+        if (rows.length < 2) return [];
+
+        const headers = parseCsvLine(rows[0]);
+        return rows.slice(1).map((row) => {
+          const values = parseCsvLine(row);
+          const item = {};
+
+          headers.forEach((header, index) => {
+            item[header] = values[index] ?? '';
+          });
+
+          return item;
+        });
+      }
+
+      function normalizeValue(value) {
+        return value && value.trim() !== '' ? value.trim() : '-';
+      }
+
+      function getCoordinate(row) {
+        const raw = row['Koordinat'] || '';
+        const match = raw.match(/-?\d+(?:\.\d+)?\s*,\s*-?\d+(?:\.\d+)?/);
+
+        if (!match) return null;
+
+        const [latText, lngText] = match[0].split(',').map((part) => part.trim());
+        const lat = Number.parseFloat(latText);
+        const lng = Number.parseFloat(lngText);
+
+        if (Number.isNaN(lat) || Number.isNaN(lng)) {
+          return null;
+        }
+
+        return [lat, lng];
+      }
+
+      function renderDetail(item) {
+        const fields = [
+          { label: 'No', value: normalizeValue(item['No']) },
+          { label: 'Lokasi Aset', value: normalizeValue(item['Lokasi Aset']) },
+          { label: 'Koordinat', value: normalizeValue(item['Koordinat']) },
+          { label: 'Jenis Lampu', value: normalizeValue(item['Jenis Lampu']) },
+          { label: 'Daya (Watt)', value: normalizeValue(item['Daya (Watt)']) },
+          { label: 'Kondisi Lampu', value: normalizeValue(item['Kondisi Lampu']) },
+          { label: 'Panjang Tiang', value: normalizeValue(item['Panjang Tiang']) },
+          { label: 'Jenis Tiang', value: normalizeValue(item['Jenis Tiang']) },
+          { label: 'Kondisi Tiang', value: normalizeValue(item['Kondisi Tiang']) },
+          { label: 'Panjang Stang', value: normalizeValue(item['Panjang Stang']) },
+          { label: 'Kondisi Stang', value: normalizeValue(item['Kondisi Stang']) },
+        ];
+
+        modalTitle.textContent = `Aset ${normalizeValue(item['No'])}`;
+        detailContent.innerHTML = fields
+          .map(
+            (field) => `
+              <div class="detail-item">
+                <div class="detail-label">${field.label}</div>
+                <div class="detail-value">${field.value}</div>
+              </div>
+            `
+          )
+          .join('');
+
+        openModal();
+      }
+
+      let activeMarker = null;
+
+      function setActiveMarker(marker, item) {
+        if (activeMarker && activeMarker !== marker) {
+          activeMarker.setStyle({
+            radius: 7,
+            color: '#0f766e',
+            fillColor: '#38bdf8',
+            fillOpacity: 0.95,
+            weight: 1,
+          });
+        }
+
+        activeMarker = marker;
+        if (marker) {
+          marker.setStyle({
+            radius: 10,
+            color: '#f59e0b',
+            fillColor: '#fcd34d',
+            fillOpacity: 1,
+            weight: 2,
+          });
+        }
+
+        if (item) {
+          renderDetail(item);
+        }
+      }
+
+      function buildMarker(item) {
+        const coords = getCoordinate(item);
+        if (!coords) return null;
+
+        const marker = L.circleMarker(coords, {
+          radius: 7,
+          color: '#0f766e',
+          weight: 1,
+          fillColor: '#38bdf8',
+          fillOpacity: 0.95,
+        });
+
+        marker.on('click', () => {
+          setActiveMarker(marker, item);
+        });
+        marker.addTo(map);
+        return marker;
+      }
+
+      function groupLocations(rows) {
+        const groups = {};
+
+        rows.forEach((item) => {
+          const lokasi = normalizeValue(item['Lokasi Aset']);
+          if (!groups[lokasi]) {
+            groups[lokasi] = [];
+          }
+          groups[lokasi].push(item);
+        });
+
+        return Object.entries(groups).map(([lokasi, items]) => ({ lokasi, items }));
+      }
+
+      function renderLocationSidebar(rows) {
+        const grouped = groupLocations(rows);
+
+        locationList.innerHTML = grouped
+          .map(
+            ({ lokasi, items }, groupIndex) => `
+              <div class="location-group">
+                <button class="location-button" type="button" data-location="${lokasi}">
+                  <span>${lokasi}</span>
+                  <span>▸</span>
+                </button>
+                <div class="location-items">
+                  ${items
+                    .map(
+                      (item) => `
+                        <button class="location-item" type="button" data-no="${item['No']}" data-location="${lokasi}">
+                          ${item['No']}. ${normalizeValue(item['Koordinat'])}
+                        </button>
+                      `
+                    )
+                    .join('')}
+                </div>
+              </div>
+            `
+          )
+          .join('');
+
+        document.querySelectorAll('.location-button').forEach((button) => {
+          button.addEventListener('click', () => {
+            const parent = button.closest('.location-group');
+            const isOpen = parent.classList.contains('open');
+            document.querySelectorAll('.location-group').forEach((group) => group.classList.remove('open'));
+            if (!isOpen) parent.classList.add('open');
+          });
+        });
+
+        document.querySelectorAll('.location-item').forEach((button) => {
+          button.addEventListener('click', () => {
+            const no = button.dataset.no;
+            const selected = rows.find((item) => String(item['No']) === String(no));
+            if (!selected) return;
+
+            document.querySelectorAll('.location-item').forEach((itemButton) => {
+              itemButton.classList.toggle('active', itemButton === button);
+            });
+
+            const coords = getCoordinate(selected);
+            if (coords) {
+              map.flyTo(coords, 18, { animate: true, duration: 1.2 });
+            }
+
+            const selectedMarker = markers.find((marker) => {
+              const latlng = marker.getLatLng();
+              const target = getCoordinate(selected);
+              return target && latlng.lat === target[0] && latlng.lng === target[1];
+            });
+
+            setActiveMarker(selectedMarker || null, selected);
+          });
+        });
+      }
+
+      let markers = [];
+
+      fetch('../data/data_kordiju.csv')
+        .then((response) => {
+          if (!response.ok) throw new Error('CSV not found');
+          return response.text();
+        })
+        .then((csvText) => {
+          const rows = parseCsv(csvText);
+          markers = [];
+
+          renderLocationSidebar(rows);
+
+          rows.forEach((item) => {
+            const marker = buildMarker(item);
+            if (marker) markers.push(marker);
+          });
+
+          if (markers.length > 0) {
+            const bounds = L.latLngBounds(markers.map((marker) => marker.getLatLng()));
+            map.fitBounds(bounds, { padding: [30, 30] });
+          }
+        })
+        .catch(() => {
+          const fallback = L.marker([-6.2088, 106.8456])
+            .addTo(map)
+            .bindPopup('File CSV belum tersedia atau gagal dimuat.');
+
+          fallback.on('click', () => {
+            renderDetail({
+              No: '1',
+              'Lokasi Aset': 'Contoh lokasi',
+              Koordinat: '-6.2088, 106.8456',
+              'Jenis Lampu': '-',
+              'Daya (Watt)': '-',
+              'Kondisi Lampu': '-',
+              'Panjang Tiang': '-',
+              'Jenis Tiang': '-',
+              'Kondisi Tiang': '-',
+              'Panjang Stang': '-',
+              'Kondisi Stang': '-',
+            });
+          });
+        });
     </script>
   </body>
 </html>
