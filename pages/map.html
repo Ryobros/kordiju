@@ -175,6 +175,13 @@
       .location-button span:last-child {
         font-size: 1.2rem;
         color: var(--muted);
+        display: inline-block;
+        transition: transform 0.2s ease, color 0.2s ease;
+      }
+
+      .location-group.open .location-button span:last-child {
+        transform: rotate(90deg);
+        color: var(--primary-strong);
       }
 
       .location-items {
@@ -736,11 +743,26 @@
           .join('');
 
         document.querySelectorAll('.location-button').forEach((button) => {
+          const parent = button.closest('.location-group');
+          const isOpen = parent.classList.contains('open');
+          button.setAttribute('aria-expanded', String(isOpen));
+
           button.addEventListener('click', () => {
-            const parent = button.closest('.location-group');
-            const isOpen = parent.classList.contains('open');
-            document.querySelectorAll('.location-group').forEach((group) => group.classList.remove('open'));
-            if (!isOpen) parent.classList.add('open');
+            const parentGroup = button.closest('.location-group');
+            const willOpen = !parentGroup.classList.contains('open');
+
+            document.querySelectorAll('.location-group').forEach((group) => {
+              const groupButton = group.querySelector('.location-button');
+              group.classList.remove('open');
+              if (groupButton) {
+                groupButton.setAttribute('aria-expanded', 'false');
+              }
+            });
+
+            if (willOpen) {
+              parentGroup.classList.add('open');
+              button.setAttribute('aria-expanded', 'true');
+            }
           });
         });
 
