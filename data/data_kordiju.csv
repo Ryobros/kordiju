@@ -1,4 +1,4 @@
-No,Lokasi Aset,Koordinat,Jenis Lampu,Daya (Watt),Kondisi Lampu,Panjang Tiang,Jenis Tiang,Kondisi Tiang,Panjang Stang,Kondisi Stang
+No,Lokasi Aset,Koordinat,Jenis Lampu,Daya (Watt),Kondisi Lampu,Panjang Tiang (m),Jenis Tiang,Kondisi Tiang,Panjang Stang (m),Kondisi Stang
 1,"BUMI KARA RESIDENCE, BOJONGSOANG","-6.988627, 107.650381",LED COBRA,50 W,NYALA,,,,2 M,KARAT
 2,"BUMI KARA RESIDENCE, BOJONGSOANG","-6.988970, 107.650390",LED COBRA,50 W,NYALA,,,,2 M,KARAT
 3,"BUMI KARA RESIDENCE, BOJONGSOANG","-6.989279, 107.650311",LED COBRA,50 W,NYALA,,,,2 M,KARAT
