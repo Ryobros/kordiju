@@ -16,7 +16,7 @@
 
       .welcome-shell {
         width: min(760px, calc(100% - 32px));
-        padding: 48px 32px;
+        padding: 42px 32px 36px;
         border: 1px solid var(--border);
         border-radius: 28px;
         background: rgba(255, 255, 255, 0.82);
@@ -25,30 +25,32 @@
         text-align: center;
       }
 
-      .badge {
-        display: inline-block;
-        padding: 8px 14px;
-        border-radius: 999px;
-        background: rgba(15, 118, 110, 0.1);
-        color: var(--primary-strong);
-        font-size: 12px;
-        font-weight: 700;
-        letter-spacing: 0.06em;
-        text-transform: uppercase;
+      .brand {
+        display: grid;
+        place-items: center;
+        margin-bottom: 8px;
+      }
+
+      .brand img {
+        width: 180px;
+        height: auto;
+        display: block;
+        filter: drop-shadow(0 16px 20px rgba(15, 118, 110, 0.14));
       }
 
       h1 {
-        margin: 18px 0 12px;
-        font-size: clamp(2.2rem, 5vw, 4rem);
-        line-height: 1.1;
+        margin: 8px 0 4px;
+        font-size: clamp(1.6rem, 3vw, 2.6rem);
+        line-height: 1.2;
       }
 
-      p {
+      h3 {
+        margin: 0 auto 22px;
         max-width: 560px;
-        margin: 0 auto 28px;
         color: var(--muted);
         font-size: 1.05rem;
         line-height: 1.7;
+        font-weight: 500;
       }
 
       .next-button {
@@ -77,11 +79,14 @@
   </head>
   <body>
     <main class="welcome-shell">
-      <div class="badge">Kordiju</div>
-      <h1>Selamat Datang di Kordiju</h1>
-      <p>
+      <div class="brand" aria-label="Logo Kordiju">
+        <img src="assets/img/KORDIJU.png" alt="Logo Kordiju" />
+      </div>
+
+      <h1>Selamat Datang</h1>
+      <h3>
         Koordinat Data Inventaris PJU
-      </p>
+      </h3>
 
       <a class="next-button" href="pages/map.html">Lanjut ke Peta →</a>
     </main>
