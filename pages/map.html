@@ -195,15 +195,34 @@
       }
 
       .location-item {
+        position: relative;
         width: 100%;
         text-align: left;
         border: 0;
         background: transparent;
-        padding: 10px 14px;
+        padding: 10px 14px 10px 34px;
         color: var(--text);
         cursor: pointer;
         border-bottom: 1px solid rgba(15, 23, 42, 0.04);
         transition: background 0.2s ease, color 0.2s ease, font-weight 0.2s ease;
+      }
+
+      .location-item::before {
+        content: "";
+        position: absolute;
+        left: 14px;
+        top: 50%;
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+        background: rgba(239, 68, 68, 0.3);
+        border: 1px solid rgba(185, 28, 28, 0.8);
+        transform: translateY(-50%);
+        opacity: 0;
+      }
+
+      .location-item.off::before {
+        opacity: 1;
       }
 
       .location-item:last-child {
@@ -728,13 +747,14 @@
                 </button>
                 <div class="location-items">
                   ${items
-                    .map(
-                      (item) => `
-                        <button class="location-item" type="button" data-no="${item['No']}" data-location="${lokasi}">
+                    .map((item) => {
+                      const isInactive = !getLampStatus(item);
+                      return `
+                        <button class="location-item ${isInactive ? 'off' : ''}" type="button" data-no="${item['No']}" data-location="${lokasi}" title="${isInactive ? 'Tidak nyala' : 'Nyala'}">
                           ${item['No']}. ${normalizeValue(item['Koordinat'])}
                         </button>
-                      `
-                    )
+                      `;
+                    })
                     .join('')}
                 </div>
               </div>
