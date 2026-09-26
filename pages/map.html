@@ -590,13 +590,21 @@
         const rows = text.trim().split(/\r?\n/).filter((line) => line.trim() !== '');
         if (rows.length < 2) return [];
 
-        const headers = parseCsvLine(rows[0]);
+        const rawHeaders = parseCsvLine(rows[0]);
+        const headers = rawHeaders.map((header) => {
+          const normalized = header.replace(/\s*\(\s*(?:m|meter|metre)\s*\)\s*$/i, '').trim();
+          return normalized || header.trim();
+        });
+
         return rows.slice(1).map((row) => {
           const values = parseCsvLine(row);
           const item = {};
 
-          headers.forEach((header, index) => {
-            item[header] = values[index] ?? '';
+          rawHeaders.forEach((header, index) => {
+            const value = values[index] ?? '';
+            const normalized = headers[index] || header.trim();
+            item[header] = value;
+            item[normalized] = value;
           });
 
           return item;
@@ -604,7 +612,21 @@
       }
 
       function normalizeValue(value) {
-        return value && value.trim() !== '' ? value.trim() : '-';
+        if (value === undefined || value === null) return '-';
+
+        const trimmed = String(value).trim();
+        if (trimmed === '') return '-';
+
+        const normalized = trimmed.replace(/\s*(?:m|meter|metre)\s*$/i, '').trim();
+        return normalized !== '' ? normalized : '-';
+      }
+
+      function parseNumericValue(value) {
+        const normalized = normalizeValue(value);
+        if (normalized === '-') return null;
+
+        const numeric = Number.parseFloat(normalized);
+        return Number.isFinite(numeric) ? numeric : null;
       }
 
       function getCoordinate(row) {
