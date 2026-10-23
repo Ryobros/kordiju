@@ -22,7 +22,10 @@
 
       body {
         position: relative;
-        background: #dfeaf1;
+        background:
+          radial-gradient(circle at top left, rgba(56, 189, 248, 0.22), transparent 26%),
+          radial-gradient(circle at bottom right, rgba(15, 118, 110, 0.18), transparent 30%),
+          linear-gradient(140deg, #eef8ff 0%, #e6f0f3 34%, #edf4f8 100%);
       }
 
       .app-shell {
@@ -37,10 +40,10 @@
         width: 330px;
         min-width: 330px;
         height: 100%;
-        background: rgba(255, 255, 255, 0.92);
-        border-right: 1px solid var(--border);
-        box-shadow: 12px 0 30px rgba(15, 23, 42, 0.08);
-        backdrop-filter: blur(8px);
+        background: rgba(255, 255, 255, 0.74);
+        border-right: 1px solid rgba(15, 23, 42, 0.08);
+        box-shadow: 14px 0 36px rgba(15, 23, 42, 0.08), inset -1px 0 0 rgba(255, 255, 255, 0.6);
+        backdrop-filter: blur(18px);
         transition: width 0.25s ease, min-width 0.25s ease, transform 0.25s ease;
         z-index: 600;
         display: flex;
@@ -63,8 +66,8 @@
 
       .sidebar-header {
         padding: 18px 16px 12px;
-        border-bottom: 1px solid var(--border);
-        background: #f8fafc;
+        border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.82), rgba(248, 250, 252, 0.92));
         position: sticky;
         top: 0;
         z-index: 2;
@@ -81,10 +84,15 @@
         display: flex;
         align-items: center;
         gap: 10px;
-        font-weight: 800;
+        font-weight: 900;
         letter-spacing: 0.08em;
         text-transform: uppercase;
         color: var(--primary-strong);
+        background: linear-gradient(135deg, rgba(15, 118, 110, 0.08), rgba(56, 189, 248, 0.12));
+        border: 1px solid rgba(15, 118, 110, 0.14);
+        border-radius: 14px;
+        padding: 8px 12px;
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5);
       }
 
       .brand-mark {
@@ -96,17 +104,25 @@
         background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
         color: #fff;
         font-size: 0.8rem;
+        box-shadow: 0 10px 18px rgba(15, 118, 110, 0.22);
       }
 
       .sidebar-toggle {
-        width: 36px;
-        height: 36px;
-        border: 1px solid var(--border);
-        border-radius: 10px;
-        background: #fff;
-        color: var(--text);
+        width: 38px;
+        height: 38px;
+        border: 1px solid rgba(15, 118, 110, 0.18);
+        border-radius: 12px;
+        background: linear-gradient(135deg, #ffffff 0%, rgba(59, 130, 246, 0.08) 100%);
+        color: var(--primary-strong);
         cursor: pointer;
         font-size: 1.2rem;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        box-shadow: 0 8px 18px rgba(15, 23, 42, 0.08);
+      }
+
+      .sidebar-toggle:hover,
+      .sidebar-open-button:hover {
+        transform: translateY(-1px);
       }
 
       .sidebar-open-button {
@@ -137,8 +153,8 @@
 
       .section-label {
         margin: 10px 0 8px;
-        font-size: 0.74rem;
-        letter-spacing: 0.08em;
+        font-size: 0.72rem;
+        letter-spacing: 0.12em;
         text-transform: uppercase;
         font-weight: 800;
         color: var(--muted);
@@ -147,14 +163,15 @@
       .location-list {
         display: flex;
         flex-direction: column;
-        gap: 10px;
+        gap: 12px;
       }
 
       .location-group {
-        border: 1px solid var(--border);
-        border-radius: 12px;
+        border: 1px solid rgba(15, 118, 110, 0.12);
+        border-radius: 16px;
         overflow: hidden;
-        background: #fff;
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(248, 250, 252, 0.92));
+        box-shadow: 0 8px 18px rgba(15, 23, 42, 0.05);
       }
 
       .location-button {
@@ -163,13 +180,18 @@
         background: transparent;
         text-align: left;
         padding: 12px 14px;
-        font-weight: 700;
+        font-weight: 800;
         color: var(--text);
         cursor: pointer;
         display: flex;
         align-items: center;
         justify-content: space-between;
         gap: 8px;
+        transition: background 0.2s ease, color 0.2s ease;
+      }
+
+      .location-button:hover {
+        background: rgba(56, 189, 248, 0.05);
       }
 
       .location-button span:last-child {
@@ -186,8 +208,8 @@
 
       .location-items {
         display: none;
-        border-top: 1px solid var(--border);
-        background: #f8fafc;
+        border-top: 1px solid rgba(15, 23, 42, 0.06);
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.35), rgba(236, 245, 250, 0.75));
       }
 
       .location-group.open .location-items {
@@ -204,7 +226,7 @@
         color: var(--text);
         cursor: pointer;
         border-bottom: 1px solid rgba(15, 23, 42, 0.04);
-        transition: background 0.2s ease, color 0.2s ease, font-weight 0.2s ease;
+        transition: background 0.2s ease, color 0.2s ease, font-weight 0.2s ease, transform 0.2s ease;
       }
 
       .location-item::before {
@@ -237,6 +259,7 @@
         background: linear-gradient(135deg, rgba(15, 118, 110, 0.14), rgba(56, 189, 248, 0.12));
         color: var(--primary-strong);
         font-weight: 700;
+        box-shadow: inset 0 0 0 1px rgba(15, 118, 110, 0.08);
       }
 
       .map-panel {
@@ -256,29 +279,31 @@
         bottom: 20px;
         left: 20px;
         z-index: 500;
-        background: rgba(255, 255, 255, 0.9);
-        border: 1px solid var(--border);
-        border-radius: 14px;
-        padding: 10px 14px;
-        box-shadow: var(--shadow);
-        backdrop-filter: blur(4px);
+        background: rgba(15, 23, 42, 0.68);
+        border: 1px solid rgba(148, 163, 184, 0.38);
+        border-radius: 16px;
+        padding: 12px 16px;
+        box-shadow: 0 16px 32px rgba(15, 23, 42, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+        backdrop-filter: blur(12px);
         text-align: left;
-        min-width: 220px;
+        min-width: 240px;
       }
 
       .map-header strong {
         display: block;
-        font-size: 0.9rem;
-        letter-spacing: 0.04em;
-        color: var(--primary-strong);
+        font-size: 0.88rem;
+        letter-spacing: 0.12em;
+        color: #d9f6ff;
         text-transform: uppercase;
+        text-shadow: 0 0 16px rgba(125, 211, 252, 0.5);
       }
 
       .map-header span {
         display: block;
         text-align: left;
-        font-size: 0.86rem;
-        color: var(--muted);
+        font-size: 0.84rem;
+        color: #dbeafe;
+        margin-top: 4px;
       }
 
       .map-style-control {
@@ -290,32 +315,32 @@
         align-items: center;
         gap: 8px;
         padding: 8px 10px 8px 12px;
-        background: rgba(255, 255, 255, 0.9);
-        border: 1px solid rgba(148, 163, 184, 0.6);
-        border-radius: 12px;
-        box-shadow: 0 10px 24px rgba(15, 23, 42, 0.12);
-        backdrop-filter: blur(8px);
+        background: rgba(15, 23, 42, 0.62);
+        border: 1px solid rgba(148, 163, 184, 0.5);
+        border-radius: 14px;
+        box-shadow: 0 12px 28px rgba(15, 23, 42, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+        backdrop-filter: blur(12px);
       }
 
       .map-style-label {
-        font-size: 0.7rem;
-        font-weight: 800;
-        letter-spacing: 0.09em;
+        font-size: 0.68rem;
+        font-weight: 900;
+        letter-spacing: 0.11em;
         text-transform: uppercase;
-        color: var(--muted);
+        color: #e0f2fe;
       }
 
       .map-style-control select {
-        border: 1px solid var(--border);
-        background: #fff;
-        color: var(--text);
+        border: 1px solid rgba(125, 211, 252, 0.38);
+        background: rgba(15, 23, 42, 0.8);
+        color: #e2f3ff;
         border-radius: 10px;
         padding: 8px 30px 8px 10px;
         font-size: 0.82rem;
         font-weight: 700;
         outline: none;
         appearance: none;
-        background-image: linear-gradient(45deg, transparent 50%, var(--muted) 50%), linear-gradient(135deg, var(--muted) 50%, transparent 50%);
+        background-image: linear-gradient(45deg, transparent 50%, #e2f3ff 50%), linear-gradient(135deg, #e2f3ff 50%, transparent 50%);
         background-position: calc(100% - 16px) calc(50% - 2px), calc(100% - 11px) calc(50% - 2px);
         background-size: 5px 5px, 5px 5px;
         background-repeat: no-repeat;
@@ -335,7 +360,7 @@
         display: none;
         align-items: center;
         justify-content: center;
-        background: rgba(15, 23, 42, 0.48);
+        background: rgba(15, 23, 42, 0.52);
         z-index: 1000;
         padding: 20px;
       }
@@ -348,10 +373,10 @@
         width: min(760px, 100%);
         max-height: 85vh;
         overflow: auto;
-        background: var(--surface);
-        border-radius: 22px;
-        box-shadow: var(--shadow);
-        border: 1px solid var(--border);
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(240, 249, 255, 0.96));
+        border-radius: 24px;
+        box-shadow: 0 24px 60px rgba(15, 23, 42, 0.2);
+        border: 1px solid rgba(15, 118, 110, 0.14);
       }
 
       .modal-header {
@@ -360,12 +385,14 @@
         align-items: center;
         gap: 16px;
         padding: 20px 24px 14px;
-        border-bottom: 1px solid var(--border);
+        border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+        background: linear-gradient(135deg, rgba(15, 118, 110, 0.08), rgba(56, 189, 248, 0.08));
       }
 
       .modal-header h2 {
         margin: 0;
         font-size: clamp(1.2rem, 2vw, 1.6rem);
+        color: var(--primary-strong);
       }
 
       .close-button {
@@ -374,8 +401,8 @@
         height: 36px;
         border-radius: 50%;
         font-size: 1.4rem;
-        background: #edf2f7;
-        color: var(--text);
+        background: rgba(15, 118, 110, 0.08);
+        color: var(--primary-strong);
         cursor: pointer;
       }
 
@@ -394,17 +421,18 @@
         flex-direction: column;
         gap: 4px;
         padding: 12px 14px;
-        border: 1px solid var(--border);
-        border-radius: 12px;
-        background: #f8fafc;
+        border: 1px solid rgba(15, 23, 42, 0.08);
+        border-radius: 14px;
+        background: linear-gradient(180deg, rgba(248, 250, 252, 0.96), rgba(241, 245, 249, 0.9));
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5);
       }
 
       .detail-label {
-        font-size: 0.75rem;
+        font-size: 0.72rem;
         text-transform: uppercase;
-        letter-spacing: 0.06em;
+        letter-spacing: 0.09em;
         color: var(--muted);
-        font-weight: 700;
+        font-weight: 800;
       }
 
       .detail-value {
