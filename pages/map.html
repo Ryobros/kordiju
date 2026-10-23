@@ -439,8 +439,8 @@
         <div class="map-style-control" aria-label="Pilihan tampilan peta">
           <span class="map-style-label">Peta</span>
           <select id="mapStyle" aria-label="Pilih jenis peta">
+            <option value="default" selected>Standar</option>
             <option value="satellite">Satelit</option>
-            <option value="default">Standar</option>
           </select>
         </div>
 
@@ -502,7 +502,7 @@
         }
       }
 
-      setMapLayer('satellite');
+      setMapLayer('default');
       mapStyleSelect.addEventListener('change', (event) => {
         setMapLayer(event.target.value);
       });
