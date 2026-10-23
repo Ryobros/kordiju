@@ -23,9 +23,32 @@
       body {
         position: relative;
         background:
-          radial-gradient(circle at top left, rgba(56, 189, 248, 0.22), transparent 26%),
-          radial-gradient(circle at bottom right, rgba(15, 118, 110, 0.18), transparent 30%),
-          linear-gradient(140deg, #eef8ff 0%, #e6f0f3 34%, #edf4f8 100%);
+          radial-gradient(circle at top left, rgba(125, 211, 252, 0.2), transparent 22%),
+          radial-gradient(circle at bottom right, rgba(26, 208, 184, 0.2), transparent 24%),
+          linear-gradient(145deg, #071421 0%, #0d1a2a 28%, #111827 100%);
+      }
+
+      button,
+      select {
+        transition: transform 180ms ease, background 180ms ease, box-shadow 180ms ease, border-color 180ms ease, opacity 180ms ease;
+      }
+
+      button:hover,
+      button:focus-visible,
+      select:hover,
+      select:focus-visible {
+        transform: translateY(-1px);
+      }
+
+      button:active,
+      select:active {
+        transform: translateY(0);
+      }
+
+      button:focus-visible,
+      select:focus-visible {
+        outline: 2px solid rgba(125, 211, 252, 0.9);
+        outline-offset: 2px;
       }
 
       .app-shell {
@@ -121,8 +144,21 @@
       }
 
       .sidebar-toggle:hover,
-      .sidebar-open-button:hover {
+      .sidebar-open-button:hover,
+      .close-button:hover,
+      .location-button:hover,
+      .location-item:hover,
+      .map-style-control select:hover {
         transform: translateY(-1px);
+      }
+
+      .sidebar-toggle:focus-visible,
+      .sidebar-open-button:focus-visible,
+      .close-button:focus-visible,
+      .location-button:focus-visible,
+      .location-item:focus-visible {
+        outline: 2px solid rgba(125, 211, 252, 0.9);
+        outline-offset: 2px;
       }
 
       .sidebar-open-button {
@@ -192,6 +228,7 @@
 
       .location-button:hover {
         background: rgba(56, 189, 248, 0.05);
+        box-shadow: inset 0 0 0 1px rgba(125, 211, 252, 0.08);
       }
 
       .location-button span:last-child {
@@ -253,6 +290,7 @@
 
       .location-item:hover {
         background: rgba(56, 189, 248, 0.08);
+        box-shadow: inset 0 0 0 1px rgba(125, 211, 252, 0.08);
       }
 
       .location-item.active {
